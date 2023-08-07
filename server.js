@@ -1,25 +1,27 @@
 const express = require('express')
 const axios = require('axios')
+require('dotenv').config()   
 
 const app= express() 
-
+const apiKey= process.env.API_KEY
 class Block{
     constructor(timeStamp,blockReward){
         this.timeStamp= timeStamp;
-        this.blockReward = Boolean
+        this.blockReward = blockReward;
     }
 }
 
-// https://api.etherscan.io/api
-  // ?module=block
-  // &action=getblockreward
-  // &blockno=2165403
-  // &apikey=YourApiKeyToken
+
 
   const fetchData = async ()=>{
     try{
       const listOFBlocks = [];
-      for(let blockNumber=174698523; blockNumber< 174698540; blockNumber++ ){
+      for(let blockNumber=174698523; blockNumber<174698525; blockNumber++ ){
+           const apiUrl = `https://api.etherscan.io/api?module=block&action=getblockreward&blockno=${blockNumber}&apikey=${apiKey}`
+ 
+             const response = await axios.get(apiUrl);
+             console.log(response.data.result.blockReward)              
+
 
       }
     }
@@ -29,6 +31,7 @@ class Block{
   }
 
 
+fetchData()
 app.listen(3000,()=> {
     console.log("Server is Running ");
 })
